@@ -650,7 +650,22 @@ class HtmlGenerator
         $attributes = [];
         foreach ($field->html_attributes as $attribute) {
             $attributes[$attribute['attribute_name']] = $attribute['attribute_value'];
+
+            /**
+             * modify names for multiple uploads
+             */
+            if ($attribute['attribute_name'] == 'multiple') {
+                $name = $element->getAttributes()['name'];
+
+                // var_dump($name);
+
+                $attributes['name'] = $name . '[]';
+
+                // Log::debug('name: ' . $element->get('name'));
+                // $element->setName($element->getName() . '[]');
+            }
         }
+        // var_dump($attributes);
 
         $element->set($attributes);
 

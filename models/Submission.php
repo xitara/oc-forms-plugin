@@ -1,9 +1,9 @@
 <?php namespace ABWebDevelopers\Forms\Models;
 
 use ABWebDevelopers\Forms\Models\Form;
+use Backend;
 use Model;
 use Request;
-use Backend;
 
 class Submission extends Model
 {
@@ -17,7 +17,7 @@ class Submission extends Model
      * @var array JSONable fields
      */
     public $jsonable = [
-        'data'
+        'data',
     ];
 
     /**
@@ -34,7 +34,14 @@ class Submission extends Model
      * @var array Belongs to relations
      */
     public $belongsTo = [
-        'form' => Form::class
+        'form' => Form::class,
+    ];
+
+    public $attachMany = [
+        'uploaded_files' => [
+            'System\Models\File',
+            'delete' => true,
+        ],
     ];
 
     /**
@@ -51,8 +58,8 @@ class Submission extends Model
     public function scopeThrottleCheck($query, $formId)
     {
         return $query->where('form_id', $formId) // where form matches
-                    ->where('ip', Request::ip()) // where IP matches
-                    ->where('created_at', '>=', \Carbon\Carbon::now()->subDay()); // last 24h
+            ->where('ip', Request::ip()) // where IP matches
+            ->where('created_at', '>=', \Carbon\Carbon::now()->subDay()); // last 24h
     }
 
     /**
@@ -68,5 +75,34 @@ class Submission extends Model
         }
 
         return htmlspecialchars($value);
+    }
+
+    /**
+     * gwt list with attachments
+     *
+     * @autor   mburghammer
+     * @date    2021-04-19T14:32:58+02:00
+     * @param   \System\Models\File      $files
+     * @return  array
+     */
+    public function getAttachmentList($files)
+    {
+        $list = [];
+        foreach ($files as $file) {
+            $list[$file->title][] = [
+                'name' => $file->getLocalPath(),
+                'uri' => $file->getPath(),
+                'content_type' => $file->content_type,
+            ];
+        }
+
+        return $list;
+    }
+
+    public function getProtectedFile($file)
+    {
+        header('Content-Type:' . $file['content_type']);
+        header('Content-Length: ' . filesize($file['name']));
+        readfile($file['name']);
     }
 }

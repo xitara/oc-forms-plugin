@@ -1,8 +1,8 @@
 <?php namespace ABWebDevelopers\Forms;
 
-use System\Classes\PluginBase;
 use ABWebDevelopers\Forms\Models\Settings;
 use Event;
+use System\Classes\PluginBase;
 
 class Plugin extends PluginBase
 {
@@ -10,7 +10,7 @@ class Plugin extends PluginBase
     /**
      * @var string Event namespace
      */
-    public const EVENTS_PREFIX = 'abweb.forms.';
+    const EVENTS_PREFIX = 'abweb.forms.';
 
     /**
      * Register Plugin Components
@@ -20,8 +20,12 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'ABWebDevelopers\Forms\Components\CustomForm' => 'customForm'
+            'ABWebDevelopers\Forms\Components\CustomForm' => 'customForm',
         ];
+    }
+    public function registerPageSnippets()
+    {
+        return $this->registerComponents();
     }
 
     /**
@@ -35,13 +39,13 @@ class Plugin extends PluginBase
             'settings' => [
                 'label' => 'Custom Forms',
                 'description' => 'Simple multipurpose form builder',
-                'category'    => 'Small plugins',
+                'category' => 'Small plugins',
                 'icon' => 'icon-inbox',
                 'class' => 'ABWebDevelopers\Forms\Models\Settings',
                 'keywords' => 'form custom contact abweb recaptcha antispam',
                 'order' => 555,
                 'permissions' => ['abwebdevelopers.forms.access_settings'],
-            ]
+            ],
         ];
     }
 

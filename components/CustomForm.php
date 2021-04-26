@@ -2,31 +2,29 @@
 
 namespace ABWebDevelopers\Forms\Components;
 
+use ABWebDevelopers\Forms\Classes\HtmlGenerator;
 use ABWebDevelopers\Forms\Models\Form;
 use ABWebDevelopers\Forms\Models\Settings;
 use ABWebDevelopers\Forms\Models\Submission;
-use ABWebDevelopers\Forms\Classes\HtmlGenerator;
-use Cms\Classes\ComponentBase;
-use System\Models\File;
-use Backend;
 use Cache;
+use Cms\Classes\ComponentBase;
 use Event;
+use Illuminate\Http\JsonResponse;
 use Input;
 use Lang;
+use Log;
 use Mail;
 use Request;
 use Response;
+use System\Models\File;
 use Validator;
-use Illuminate\Http\JsonResponse;
 
 class CustomForm extends ComponentBase
 {
     /**
      * @var string Event namespace
      */
-    public const EVENTS_PREFIX = 'abweb.forms.';
-
-    /**
+    const EVENTS_PREFIX = 'abweb.forms.'; /**
      * @var Form The form to render / use
      */
     protected $form;
@@ -65,7 +63,7 @@ class CustomForm extends ComponentBase
     {
         return [
             'name' => 'Custom Form',
-            'description' => 'Displays a custom Form'
+            'description' => 'Displays a custom Form',
         ];
     }
 
@@ -78,11 +76,11 @@ class CustomForm extends ComponentBase
     {
         return [
             'formCode' => [
-                'title'             => 'abwebdevelopers.forms::lang.customForm.formCode.title',
-                'description'       => 'abwebdevelopers.forms::lang.customForm.formCode.description',
-                'default'           => '',
-                'type'              => 'dropdown',
-                'required'          => true,
+                'title' => 'abwebdevelopers.forms::lang.customForm.formCode.title',
+                'description' => 'abwebdevelopers.forms::lang.customForm.formCode.description',
+                'default' => '',
+                'type' => 'dropdown',
+                'required' => true,
             ],
         ];
     }
@@ -123,7 +121,7 @@ class CustomForm extends ComponentBase
         return $this->form = Form::with([
             'fields' => function ($query) {
                 return $query->orderBy('sort_order', 'asc');
-            }
+            },
         ])->where('code', $this->property('formCode'))->firstOrFail();
     }
 
@@ -134,6 +132,10 @@ class CustomForm extends ComponentBase
      */
     public function onRun(): void
     {
+        if ($this->property('formCode') == '') {
+            return;
+        }
+
         // Fire beforeRun event
         Event::fire(self::EVENTS_PREFIX . 'beforeRun', [$this]);
 
@@ -148,8 +150,26 @@ class CustomForm extends ComponentBase
 
         // Fire afterRun event
         Event::fire(self::EVENTS_PREFIX . 'afterRun', [$this]);
+    }
+
+    public function onRender(): void
+    {
+        // Fire beforeRun event
+        Event::fire(self::EVENTS_PREFIX . 'beforeRender', [$this]);
+
+        // Autoload the form
+        $this->loadForm();
+
+        // Load required CSS
+        $this->addCss('/plugins/abwebdevelopers/forms/assets/custom-form.css');
+        // Load required JS
+        $this->addJs('/plugins/abwebdevelopers/forms/assets/jquery-callback.js');
+        $this->addJs('/plugins/abwebdevelopers/forms/assets/custom-form.js');
 
         $this->getRenderedPartial();
+
+        // Fire afterRun event
+        Event::fire(self::EVENTS_PREFIX . 'afterRender', [$this]);
     }
 
     /**
@@ -234,17 +254,40 @@ class CustomForm extends ComponentBase
         $files = [];
         if ($this->form->hasFileField()) {
             foreach ($this->form->fields as $field) {
+                // Log::debug($field->html_attributes);
+
+                $is_multiple = array_column($field->html_attributes, 'attribute_name');
+                // Log::debug($is_multiple[0] ?? '');
+
+                // if ($is_multiple[0] ?? '' == 'multiple') {
+                // Log::debug($field);
+                // }
+
                 if ($field->type === 'file' || $field->type === 'image') {
+                    // var_dump($field);
+                    // Log::debug($field->code);
+
+                    // if ($is_multiple[0] ?? '' == 'multiple') {
+                    // $files[] = ${$field->code . '[]'};
+                    // } else {
                     $files[] = $field->code;
+                    // }
+                    // $files[] = [
+                    // 'code' => $field->code,
+                    // 'is_multiple' => ($is_multiple[0] ?? '' == 'multiple') ? true : false,
+                    // ];
                 }
             }
+            // var_dump($files);
         }
+
+        // exit;
 
         // If no data was supplied, reject the request
         if (empty($data)) {
             return Response::json([
                 'success' => false,
-                'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.noData')
+                'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.noData'),
             ], 400);
         }
 
@@ -273,7 +316,7 @@ class CustomForm extends ComponentBase
             // Send (multiple, field-based) error messages
             return Response::json([
                 'success' => false,
-                'errors' => $errors
+                'errors' => $errors,
             ], 400);
         }
 
@@ -290,8 +333,8 @@ class CustomForm extends ComponentBase
                 return Response::json([
                     'success' => false,
                     'errors' => [
-                        'g-recaptcha-response' => 'Invalid ReCAPTCHA response'
-                    ]
+                        'g-recaptcha-response' => 'Invalid ReCAPTCHA response',
+                    ],
                 ], 400);
             }
 
@@ -299,16 +342,47 @@ class CustomForm extends ComponentBase
             Event::fire(self::EVENTS_PREFIX . 'onRecaptchaSuccess', [$this, $data, $rules, $messages]);
         }
 
+        // Log::debug($data);
+
         // Upload the files
         $this->uploadedFiles = [];
         if (!empty($files)) {
             foreach ($files as $key) {
+                // $key = $field['code'];
+                // $is_multiple = $field['is_multiple'];
+
+                // Log::debug($key);
+
+                // Log::debug(is_array($key));
+
                 if (!empty($data[$key])) {
-                    $this->uploadedFiles[$key] = (new File())->fromPost($data[$key]);
+                    // Log::debug($data[$key]);
+                    // if ($is_multiple === true) {
+                    // foreach ($data[$key])
+                    // }
+
+                    if (is_array($data[$key])) {
+                        foreach ($data[$key] as $i => $file) {
+                            $this->uploadedFiles[$key][$i] = (new File())->fromPost($file);
+                        }
+                    } else {
+                        $this->uploadedFiles[$key] = (new File())->fromPost($data[$key]);
+                    }
+
+                    /**
+                     * remove file from text-data
+                     */
+                    unset($data[$key]);
+
+                    // $model->avatar()->create(['data' => Input::file($data[$key])]);
+
+                    // $this->uploadedFiles[$key] = Input::file($data[$key]);
                 }
             }
         }
         unset($files);
+
+        // var_dump($this->uploadedFiles['files']);
 
         // Set the email template vars
         $this->setTemplateVars($data);
@@ -358,7 +432,7 @@ class CustomForm extends ComponentBase
             'success' => true,
             'action' => $this->form->onSuccess(),
             'url' => $this->form->onSuccessRedirect(),
-            'message' => $this->form->onSuccessMessage()
+            'message' => $this->form->onSuccessMessage(),
         ]);
 
         // Fire afterFormSubmit event
@@ -444,16 +518,16 @@ class CustomForm extends ComponentBase
             return false;
         }
 
-        $context  = stream_context_create([
+        $context = stream_context_create([
             'http' => [
                 'method' => 'POST',
                 'header' => 'Content-type: application/x-www-form-urlencoded',
                 'content' => http_build_query([
                     'secret' => $secret,
                     'response' => $response,
-                    'remoteip' => Request::ip()
-                ])
-            ]
+                    'remoteip' => Request::ip(),
+                ]),
+            ],
         ]);
 
         $response = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $context);
@@ -583,7 +657,7 @@ class CustomForm extends ComponentBase
                 // Return (a single) error
                 return Response::json([
                     'success' => false,
-                    'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.invalidNotificationRecipients')
+                    'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.invalidNotificationRecipients'),
                 ], 501);
             }
 
@@ -612,8 +686,10 @@ class CustomForm extends ComponentBase
                     }
                 }
 
-                foreach ($attachments as $key => $attachment) {
-                    $message->attach($attachment, ['as' => $key]);
+                foreach ($attachments as $_attachments) {
+                    foreach ($_attachments as $key => $attachment) {
+                        $message->attach($attachment, ['as' => $key]);
+                    }
                 }
 
                 if ($this->form->notifReplyto() && !empty($replytoEmail)) {
@@ -700,8 +776,10 @@ class CustomForm extends ComponentBase
         Mail::{$method}($template, $vars, function ($message) use ($toEmail, $toName, $attachments) {
             $message->to($toEmail, $toName);
 
-            foreach ($attachments as $key => $attachment) {
-                $message->attach($attachment, ['as' => $key]);
+            foreach ($attachments as $_attachments) {
+                foreach ($_attachments as $key => $attachment) {
+                    $message->attach($attachment, ['as' => $key]);
+                }
             }
 
             Event::fire(self::EVENTS_PREFIX . 'onSendAutoReply', [$this, &$message, $toEmail, $toName, $attachments]);
@@ -725,7 +803,7 @@ class CustomForm extends ComponentBase
         $submissionData = [
             'url' => '/' . trim(Request::path(), '/'),
             'data' => $data,
-            'form_id' => $this->form->id
+            'form_id' => $this->form->id,
         ];
 
         // If store IPs, then store the IP address of the user
@@ -741,6 +819,37 @@ class CustomForm extends ComponentBase
 
         // Fire afterSaveSubmission event
         Event::fire(self::EVENTS_PREFIX . 'afterSaveSubmission', [$this, $this->submission]);
+
+        /**
+         * save files as attachements
+         */
+        foreach ($this->getAttachments() as $title => $files) {
+            foreach ($files as $name => $file) {
+                Log::debug($name);
+                Log::debug(str_replace(storage_path() . '/', '', $file));
+
+                // Look for the postback data 'example_file' in the HTML form above
+                // $sessionKey = uniqid('session_key', true);
+                $data = \File::get($file);
+
+                // Log::debug($data);
+
+                if ($data) {
+                    $fileData = (new File)->fromData($data, $name);
+                    $fileData->title = $title;
+                    $fileData->is_public = true;
+                    $this->submission->uploaded_files()->add($fileData);
+                }
+
+                // $submission->uploaded_files()->
+
+                // if (File::exists($file)) {
+                //     File::delete($file);
+                // }
+
+                $this->submission->save();
+            }
+        }
 
         // Return the newly created submission
         return $this->submission;
@@ -817,9 +926,31 @@ class CustomForm extends ComponentBase
             $raw = false;
 
             if ($field->type === 'file' || $field->type === 'image') {
-                $filename = $this->getSafeFileName($this->uploadedFiles[$field->code]);
+                // if (is_array($this->uploadedFiles[$field->code])) {
+                // foreach ($this->uploadedFiles[$field->code] as $_field) {
+                // Log::debug($field->code);
+                if (is_array($this->uploadedFiles[$field->code])) {
+                    // echo '<pre style="background: #fff">';
+                    // var_dump($this->uploadedFiles);
+                    // Log::debug($this->uploadedFiles[$field->code]);
+                    $value = '';
+                    foreach ($this->uploadedFiles[$field->code] as $k => $file) {
+                        // Log::debug($k);
+                        // var_dump($file);
+                        // Log::debug($file[0]->file_name);
+                        $filename = $this->getSafeFileName($this->uploadedFiles[$field->code][$k]) ?? '';
+                        Log::debug($filename);
+                        $value .= 'See Attached: <code>' . $filename . '</code>';
+                    }
+                    // $filename = $this->getSafeFileName($this->uploadedFiles[$_field]) ?? '';
+                    // $value_[] = 'See Attached: <code>' . $filename . '</code>';
+                    // }
+                } else {
+                    $filename = $this->getSafeFileName($this->uploadedFiles[$field->code]) ?? '';
+                    $value = 'See Attached: <code>' . $filename . '</code>';
+                }
 
-                $value = 'See Attached: <code>' . $filename . '</code>';
+                // $value = join($value_);
 
                 $raw = true;
             }
@@ -839,7 +970,7 @@ class CustomForm extends ComponentBase
         $vars = [
             'fields' => $fields,
             'form' => $this->form->toArray(),
-            'moreInfoLink' => ($this->submission) ? $this->submission->viewLink() : null
+            'moreInfoLink' => ($this->submission) ? $this->submission->viewLink() : null,
         ];
 
         // Fire beforeSetTemplateVars event
@@ -875,8 +1006,17 @@ class CustomForm extends ComponentBase
         $attachments = [];
 
         foreach ($this->uploadedFiles as $key => $file) {
-            $filename = $this->getSafeFileName($file);
-            $attachments[$filename] = $file->getLocalPath();
+            Log::debug($key);
+
+            if (is_array($file)) {
+                foreach ($file as $i => $_file) {
+                    $filename = $this->getSafeFileName($_file);
+                    $attachments[$key][$filename] = $_file->getLocalPath();
+                }
+            } else {
+                $filename = $this->getSafeFileName($file);
+                $attachments[$key][$filename] = $file->getLocalPath();
+            }
         }
 
         return $attachments;
