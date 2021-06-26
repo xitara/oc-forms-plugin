@@ -1,9 +1,6 @@
 <?php namespace Xitara\Forms\Updates;
 
 use October\Rain\Database\Updates\Migration;
-use Schema;
-use Xitara\Forms\Models\Field;
-use Xitara\Forms\Models\Form;
 
 class InitialiseDatabase extends Migration
 {
@@ -102,26 +99,16 @@ class InitialiseDatabase extends Migration
             // Add indexes
             $table->index('auto_reply_name_field_id');
             $table->index('auto_reply_email_field_id');
-
-            // Add foreign keys
-            $table->foreign('auto_reply_name_field_id')->references('id')->on('xitara_forms_fields')->onDelete('cascade');
-            $table->foreign('auto_reply_email_field_id')->references('id')->on('xitara_forms_fields')->onDelete('cascade');
         });
 
         Schema::table('xitara_forms_fields', function ($table) {
             // Add indexes
             $table->index('form_id');
-
-            // Add foreign keys
-            $table->foreign('form_id')->references('id')->on('xitara_forms_forms')->onDelete('cascade');
         });
 
         Schema::table('xitara_forms_submissions', function ($table) {
             // Add indexes
             $table->index('form_id');
-
-            // Add foreign keys
-            $table->foreign('form_id')->references('id')->on('xitara_forms_forms')->onDelete('cascade');
         });
 
         // Bootstrap a basic contact form with 3 typical fields
@@ -163,12 +150,8 @@ class InitialiseDatabase extends Migration
 
     public function down()
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::dropIfExists('xitara_forms_forms');
         Schema::dropIfExists('xitara_forms_fields');
         Schema::dropIfExists('xitara_forms_submissions');
-
-        Schema::enableForeignKeyConstraints();
     }
 }

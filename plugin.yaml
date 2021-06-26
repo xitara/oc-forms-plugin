@@ -1,7 +1,7 @@
 plugin:
     name: 'xitara.forms::lang.plugin.name'
     description: 'xitara.forms::lang.plugin.description'
-    author: 'Bradie Tilley'
+    author: 'Xitara WebWorX, Manuel Burghammer'
     icon: oc-icon-list-alt
     homepage: ''
 navigation:
