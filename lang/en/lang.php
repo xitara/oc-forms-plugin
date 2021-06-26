@@ -34,7 +34,7 @@
         ],
         'validation' => [
             'label' => 'Validation Styling',
-            'comment' => 'All of the below can be overridden, per form'
+            'comment' => 'All of the below can be overridden, per form',
         ],
         'notifications' => [
             'label' => 'Automatic Notifications',
@@ -48,9 +48,9 @@
     ],
     'mail' => [
         'templates' => [
-            'autoreply' => 'ABWebDevelopers Forms - Auto-reply Message',
-            'notification' => 'ABWebDevelopers Forms - Notification Message',
-        ]
+            'autoreply' => 'Xitara Forms - Auto-reply Message',
+            'notification' => 'Xitara Forms - Notification Message',
+        ],
     ],
     'customForm' => [
         'formCode' => [
@@ -63,7 +63,7 @@
             'invalidNotificationRecipients' => 'Notification recipients list contains invalid email address',
             'noAutoReplyEmailField' => 'Auto-reply Email field could not be resolved',
             'noAutoReplyNameField' => 'Auto-reply Name field could not be resolved',
-        ]
+        ],
     ],
     'permissions' => [
         'forms' => 'Manage forms',
@@ -86,17 +86,17 @@
             ],
             'override' => [
                 'label' => 'Override system value',
-                'comment' => 'On: Override | Off: Inherit'
+                'comment' => 'On: Override | Off: Inherit',
             ],
         ],
         'settings' => [
             'enable_caching' => [
                 'label' => 'Enable Caching',
-                'comment' => 'Choose whether or not cache the rendered form'
+                'comment' => 'Choose whether or not cache the rendered form',
             ],
             'cache_lifetime' => [
                 'label' => 'Cache Lifetime',
-                'comment' => 'Amount of minutes to cache the rendered form for'
+                'comment' => 'Amount of minutes to cache the rendered form for',
             ],
             'form_class' => [
                 'label' => 'Form Class',
@@ -172,7 +172,7 @@
             ],
             'queue_emails' => [
                 'label' => 'Queue Emails?',
-                'comment' => 'Choose whether or not to add emails to the queue rather than sending synchronously (recommened)'
+                'comment' => 'Choose whether or not to add emails to the queue rather than sending synchronously (recommened)',
             ],
             'send_notifications' => [
                 'label' => 'Send Notifications',
@@ -244,32 +244,32 @@
                 'options' => [
                     'hide' => 'Hide form',
                     'clear' => 'Clear/reset the form',
-                    'redirect' => 'Redirect to URL'
+                    'redirect' => 'Redirect to URL',
                 ],
             ],
             'on_success_message' => [
                 'label' => 'On Success Message',
                 'comment' => 'Choose what to flash when the form is successfully submitted',
-                'placeholder' => 'Message successfully sent'
+                'placeholder' => 'Message successfully sent',
             ],
             'on_success_redirect' => [
                 'label' => 'On Success Redirect',
                 'comment' => 'Choose what URL to redirect to when the form is successfully submitted',
-                'placeholder' => '/thank-you'
-            ]
+                'placeholder' => '/thank-you',
+            ],
         ],
         'form' => [
             'title' => [
                 'label' => 'Form Title',
-                'comment' => 'The title of the form (display in email, etc)'
+                'comment' => 'The title of the form (display in email, etc)',
             ],
             'code' => [
                 'label' => 'Form Code',
-                'comment' => 'The form\'s code (snake_case only)'
+                'comment' => 'The form\'s code (snake_case only)',
             ],
             'description' => [
                 'label' => 'Form Description',
-                'comment' => 'A little description about the forms purpose'
+                'comment' => 'A little description about the forms purpose',
             ],
         ],
         'field' => [
@@ -320,15 +320,15 @@
                 'fields' => [
                     'option_label' => [
                         'label' => 'Option Label',
-                        'comment' => 'Used as the label for this option'
+                        'comment' => 'Used as the label for this option',
                     ],
                     'option_code' => [
                         'label' => 'Option Code',
-                        'comment' => 'Used to identify this field. Must be in snake_case'
+                        'comment' => 'Used to identify this field. Must be in snake_case',
                     ],
                     'is_optgroup' => [
                         'label' => 'Add sub options?',
-                        'comment' => 'Adding sub options will turn this option into a group of options (specifically an `<optgroup>`)'
+                        'comment' => 'Adding sub options will turn this option into a group of options (specifically an `<optgroup>`)',
                     ],
                     'options' => [
                         'label' => 'Sub Options',
@@ -336,15 +336,15 @@
                         'fields' => [
                             'option_label' => [
                                 'label' => 'Option Label',
-                                'comment' => 'Used as the label for this option'
+                                'comment' => 'Used as the label for this option',
                             ],
                             'option_code' => [
                                 'label' => 'Option Code',
-                                'comment' => 'Used to identify this field. Must be in snake_case'
-                            ]
-                        ]
+                                'comment' => 'Used to identify this field. Must be in snake_case',
+                            ],
+                        ],
                     ],
-                ]
+                ],
             ],
             'html_attributes' => [
                 'label' => 'HTML Attributes',
@@ -359,7 +359,7 @@
                         'label' => 'Attribute Value',
                         'comment' => 'The value of the attribute. For boolean attributes, leave blank.',
                     ],
-                ]
+                ],
             ],
             'show_in_email_autoreply' => [
                 'label' => 'Show in autoreply emails',
@@ -369,6 +369,6 @@
                 'label' => 'Show in notification emails',
                 'comment' => 'Should this field\'s value show in notification emails',
             ],
-        ]
-    ]
+        ],
+    ],
 ];

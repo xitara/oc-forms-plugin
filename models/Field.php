@@ -1,4 +1,4 @@
-<?php namespace ABWebDevelopers\Forms\Models;
+<?php namespace Xitara\Forms\Models;
 
 use Model;
 use October\Rain\Database\Traits\Sortable;
@@ -13,7 +13,7 @@ class Field extends Model
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'abwebdevelopers_forms_fields';
+    public $table = 'xitara_forms_fields';
 
     /**
      * @var array Validation rules

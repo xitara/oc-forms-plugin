@@ -1,34 +1,34 @@
 columns:
     name:
-        label: abwebdevelopers.forms::lang.models.field.name.label
+        label: xitara.forms::lang.models.field.name.label
         type: text
         searchable: true
         sortable: false
     code:
-        label: abwebdevelopers.forms::lang.models.field.code.label
+        label: xitara.forms::lang.models.field.code.label
         type: text
         searchable: true
         sortable: false
     type:
-        label: abwebdevelopers.forms::lang.models.field.type.label
+        label: xitara.forms::lang.models.field.type.label
         type: text
         searchable: true
         sortable: false
     required:
-        label: abwebdevelopers.forms::lang.models.field.required.label
+        label: xitara.forms::lang.models.field.required.label
         type: switch
         sortable: false
     created_at:
-        label: abwebdevelopers.forms::lang.models.all.created_at.label
+        label: xitara.forms::lang.models.all.created_at.label
         type: datetime
         sortable: false
     updated_at:
-        label: abwebdevelopers.forms::lang.models.all.updated_at.label
+        label: xitara.forms::lang.models.all.updated_at.label
         type: datetime
         sortable: false
     order:
-        label: abwebdevelopers.forms::lang.models.all.sort_order.label
+        label: xitara.forms::lang.models.all.sort_order.label
         type: partial
         sortable: false
         clickable: false
-        path: ~/plugins/abwebdevelopers/forms/controllers/field/_order.htm
+        path: ~/plugins/xitara/forms/controllers/field/_order.htm

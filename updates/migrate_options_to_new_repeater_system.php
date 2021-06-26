@@ -1,10 +1,7 @@
-<?php namespace ABWebDevelopers\Forms\Updates;
+<?php namespace Xitara\Forms\Updates;
 
-use Schema;
 use October\Rain\Database\Updates\Migration;
-
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
 
 class MigrateOptionsToNewRepeaterSystem extends Migration
 {

@@ -1,19 +1,17 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Tests\Unit;
+namespace Xitara\Forms\Tests\Unit;
 
-use ABWebDevelopers\Forms\Components\CustomForm;
-use ABWebDevelopers\Forms\Models\Settings;
-use ABWebDevelopers\Forms\Models\Submission;
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
-use ABWebDevelopers\Forms\Plugin;
-use System\Classes\MailManager;
-use Illuminate\Validation\Validator;
-use PluginTestCase;
-use Input;
 use Event;
-use App;
+use Illuminate\Validation\Validator;
+use Input;
+use PluginTestCase;
+use System\Classes\MailManager;
+use Xitara\Forms\Components\CustomForm;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
+use Xitara\Forms\Models\Settings;
+use Xitara\Forms\Models\Submission;
 
 class CustomFormEventsTest extends PluginTestCase
 {
@@ -28,8 +26,8 @@ class CustomFormEventsTest extends PluginTestCase
     private function initSettings(array $data = [])
     {
         MailManager::instance()->registerMailTemplates([
-            'abwebdevelopers.forms::mail.autoreply',
-            'abwebdevelopers.forms::mail.notification',
+            'xitara.forms::mail.autoreply',
+            'xitara.forms::mail.notification',
         ]);
         MailManager::instance()->loadRegisteredTemplates();
 
@@ -46,8 +44,8 @@ class CustomFormEventsTest extends PluginTestCase
             'send_notifications' => false,
             'auto_reply' => false,
             'notification_recipients' => '',
-            'notification_template' => 'abwebdevelopers.forms::mail.notification',
-            'auto_reply_template' => 'abwebdevelopers.forms::mail.autoreply',
+            'notification_template' => 'xitara.forms::mail.notification',
+            'auto_reply_template' => 'xitara.forms::mail.autoreply',
         ], $data);
 
         foreach ($data as $key => $value) {
@@ -77,7 +75,7 @@ class CustomFormEventsTest extends PluginTestCase
         ], $data);
 
         $this->form = Form::updateOrCreate([
-            'id' => 1
+            'id' => 1,
         ], $data);
 
         $name = Field::updateOrCreate([
@@ -88,7 +86,7 @@ class CustomFormEventsTest extends PluginTestCase
             'type' => 'text',
             'description' => 'Full Name',
             'sort_order' => 1,
-            'validation_rules' => 'required|string|min:1|max:100'
+            'validation_rules' => 'required|string|min:1|max:100',
         ]);
 
         $email = Field::updateOrCreate([
@@ -99,7 +97,7 @@ class CustomFormEventsTest extends PluginTestCase
             'type' => 'email',
             'description' => 'Email Address',
             'sort_order' => 2,
-            'validation_rules' => 'required|string|email'
+            'validation_rules' => 'required|string|email',
         ]);
 
         $comment = Field::updateOrCreate([
@@ -110,7 +108,7 @@ class CustomFormEventsTest extends PluginTestCase
             'type' => 'textarea',
             'description' => 'User\'s Comments',
             'sort_order' => 3,
-            'validation_rules' => 'required|string|min:1|max:200'
+            'validation_rules' => 'required|string|min:1|max:200',
         ]);
 
         $this->form->auto_reply_email_field = $email->id;
@@ -145,7 +143,7 @@ class CustomFormEventsTest extends PluginTestCase
 
         $component = $this->getComponent();
 
-        Event::listen('abweb.forms.beforeRun', function (CustomForm $customForm) use ($component) {
+        Event::listen('xw.forms.beforeRun', function (CustomForm $customForm) use ($component) {
             $this->assertEquals($component, $customForm);
         });
 
@@ -165,7 +163,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterRun', function (CustomForm $customForm) use ($component) {
+        Event::listen('xw.forms.afterRun', function (CustomForm $customForm) use ($component) {
             $this->assertEquals($component, $customForm);
         });
 
@@ -178,7 +176,7 @@ class CustomFormEventsTest extends PluginTestCase
 
         $component = $this->getComponent();
 
-        Event::listen('abweb.forms.beforeFormSubmit', function (CustomForm $customForm) use ($component) {
+        Event::listen('xw.forms.beforeFormSubmit', function (CustomForm $customForm) use ($component) {
             $this->assertEquals($component, $customForm);
         });
 
@@ -204,7 +202,7 @@ class CustomFormEventsTest extends PluginTestCase
             'comment' => 'required|string|min:1|max:200',
         ];
 
-        Event::listen('abweb.forms.beforeValidateForm', function (CustomForm $customForm, array &$data, array &$rules, array &$messages, Validator $validator) use ($post, $expectRules) {
+        Event::listen('xw.forms.beforeValidateForm', function (CustomForm $customForm, array &$data, array &$rules, array &$messages, Validator $validator) use ($post, $expectRules) {
             $this->assertEquals($data, $post);
             $this->assertEquals($rules, $expectRules);
             $this->assertEquals(array_keys($messages), array_keys($expectRules));
@@ -232,7 +230,7 @@ class CustomFormEventsTest extends PluginTestCase
             'comment' => 'required|string|min:1|max:200',
         ];
 
-        Event::listen('abweb.forms.onValidateFormFail', function (CustomForm $customForm, array $data, array $rules, array $messages, Validator $validator) use ($post, $expectRules) {
+        Event::listen('xw.forms.onValidateFormFail', function (CustomForm $customForm, array $data, array $rules, array $messages, Validator $validator) use ($post, $expectRules) {
             $this->assertEquals($data, $post);
             $this->assertEquals($rules, $expectRules);
             $this->assertEquals(array_keys($messages), array_keys($expectRules));
@@ -254,7 +252,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterValidateForm', function (CustomForm $customForm, array $data, array $rules, array $messages) use ($post) {
+        Event::listen('xw.forms.afterValidateForm', function (CustomForm $customForm, array $data, array $rules, array $messages) use ($post) {
             $this->assertEquals($post, $data);
         });
 
@@ -277,7 +275,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.onRecaptchaFail', function (CustomForm $customForm, string $recaptchaResponse) use ($post) {
+        Event::listen('xw.forms.onRecaptchaFail', function (CustomForm $customForm, string $recaptchaResponse) use ($post) {
             $this->assertEquals($recaptchaResponse, $post['g-recaptcha-response']);
         });
 
@@ -297,7 +295,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterFormSubmit', function (CustomForm $customForm, $data, $response) use ($post) {
+        Event::listen('xw.forms.afterFormSubmit', function (CustomForm $customForm, $data, $response) use ($post) {
             $this->assertEquals($data, $post);
             $this->assertEquals('Illuminate\Http\JsonResponse', get_class($response));
             $this->assertTrue($response->getData()->success);
@@ -325,7 +323,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.beforeSendNotification', function (CustomForm $customForm, array $data, $to) {
+        Event::listen('xw.forms.beforeSendNotification', function (CustomForm $customForm, array $data, $to) {
             $this->assertEquals($to, 'bob@example.org');
         });
 
@@ -351,14 +349,14 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.beforeNotificationValidation', function (CustomForm $customForm, array $data, &$to, array &$rules, Validator &$validator) {
+        Event::listen('xw.forms.beforeNotificationValidation', function (CustomForm $customForm, array $data, &$to, array &$rules, Validator &$validator) {
             $this->assertEquals($to, [
                 'bob@example.org',
-                'rob@example.org'
+                'rob@example.org',
             ]);
             $this->assertEquals($rules, [
                 'required|email',
-                'required|email'
+                'required|email',
             ]);
         });
 
@@ -382,7 +380,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.onNotificationValidationFail', function (CustomForm $customForm, array $data, $to, array $rules, Validator $validator) {
+        Event::listen('xw.forms.onNotificationValidationFail', function (CustomForm $customForm, array $data, $to, array $rules, Validator $validator) {
             $messages = $validator->messages()->toArray();
             $this->assertEquals(1, count($messages));
             $this->assertTrue(isset($messages[1]));
@@ -410,7 +408,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.onNotificationValidationSuccess', function (CustomForm $customForm, array $data, array $to, array $rules) {
+        Event::listen('xw.forms.onNotificationValidationSuccess', function (CustomForm $customForm, array $data, array $to, array $rules) {
             $this->assertEquals(2, count($to));
             $this->assertEquals(2, count($rules));
         });
@@ -437,7 +435,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterSendNotification', function (CustomForm $customForm, array $data, bool $success) {
+        Event::listen('xw.forms.afterSendNotification', function (CustomForm $customForm, array $data, bool $success) {
             $this->assertEquals(true, $success);
         });
 
@@ -462,7 +460,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.beforeSendAutoReply', function (CustomForm $customForm, array &$data, string &$toEmail, string &$toName) use ($post) {
+        Event::listen('xw.forms.beforeSendAutoReply', function (CustomForm $customForm, array &$data, string &$toEmail, string &$toName) use ($post) {
             $this->assertEquals($post['name'], $toName);
             $this->assertEquals($post['email'], $toEmail);
         });
@@ -490,7 +488,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
+        Event::listen('xw.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
             $this->assertEquals('email', $failedOn);
         });
 
@@ -511,13 +509,13 @@ class CustomFormEventsTest extends PluginTestCase
         $component = $this->getComponent();
 
         $post = [
-                'name' => 'valid',
-                'email' => 'valid@example.org',
-                'comment' => 'valid',
-            ];
+            'name' => 'valid',
+            'email' => 'valid@example.org',
+            'comment' => 'valid',
+        ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
+        Event::listen('xw.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
             $this->assertEquals('name', $failedOn);
         });
 
@@ -542,7 +540,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterSendAutoReply', function (CustomForm $customForm, array $data, bool $success) {
+        Event::listen('xw.forms.afterSendAutoReply', function (CustomForm $customForm, array $data, bool $success) {
             $this->assertEquals(true, $success);
         });
 
@@ -564,7 +562,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.beforeSaveSubmission', function (CustomForm $customForm, array &$submissionData) use ($post) {
+        Event::listen('xw.forms.beforeSaveSubmission', function (CustomForm $customForm, array &$submissionData) use ($post) {
             $this->assertEquals($submissionData['data'], $post);
         });
 
@@ -586,7 +584,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.afterSaveSubmission', function (CustomForm $customForm, Submission $submission) use ($post) {
+        Event::listen('xw.forms.afterSaveSubmission', function (CustomForm $customForm, Submission $submission) use ($post) {
             $this->assertEquals(get_class($submission), Submission::class);
             $this->assertEquals($submission->data, $post);
         });
@@ -607,7 +605,7 @@ class CustomFormEventsTest extends PluginTestCase
         ];
         Input::replace($post);
 
-        Event::listen('abweb.forms.beforeSetTemplateVars', function (CustomForm $customForm, array &$vars) use ($post) {
+        Event::listen('xw.forms.beforeSetTemplateVars', function (CustomForm $customForm, array &$vars) use ($post) {
             $this->assertEquals($vars['fields'], [
                 'name' => [
                     'name' => 'Name',

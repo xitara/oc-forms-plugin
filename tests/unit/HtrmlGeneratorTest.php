@@ -1,19 +1,13 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Tests\Unit;
+namespace Xitara\Forms\Tests\Unit;
 
-use ABWebDevelopers\Forms\Models\Settings;
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
-use ABWebDevelopers\Forms\Components\CustomForm;
 use PluginTestCase;
+use Xitara\Forms\Components\CustomForm;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
+use Xitara\Forms\Models\Settings;
 use YeTii\HtmlElement\Elements\HtmlForm;
-use YeTii\HtmlElement\Elements\HtmlDiv;
-use YeTii\HtmlElement\Elements\HtmlSpan;
-use YeTii\HtmlElement\Elements\HtmlLabel;
-use YeTii\HtmlElement\Elements\HtmlInput;
-use YeTii\HtmlElement\Elements\HtmlSelect;
-use YeTii\HtmlElement\Elements\HtmlTextarea;
 
 class HtmlGeneratorTest extends PluginTestCase
 {
@@ -69,7 +63,7 @@ class HtmlGeneratorTest extends PluginTestCase
         ], $data);
 
         $this->form = Form::updateOrCreate([
-            'id' => 1
+            'id' => 1,
         ], $data);
 
         $name = Field::updateOrCreate([
@@ -80,7 +74,7 @@ class HtmlGeneratorTest extends PluginTestCase
             'type' => 'text',
             'description' => 'Full Name',
             'sort_order' => 1,
-            'validation_rules' => 'required|string|min:1|max:100'
+            'validation_rules' => 'required|string|min:1|max:100',
         ]);
 
         $email = Field::updateOrCreate([
@@ -91,7 +85,7 @@ class HtmlGeneratorTest extends PluginTestCase
             'type' => 'email',
             'description' => 'Email Address',
             'sort_order' => 2,
-            'validation_rules' => 'required|string|email'
+            'validation_rules' => 'required|string|email',
         ]);
 
         $comment = Field::updateOrCreate([
@@ -102,7 +96,7 @@ class HtmlGeneratorTest extends PluginTestCase
             'type' => 'textarea',
             'description' => 'User\'s Comments',
             'sort_order' => 3,
-            'validation_rules' => 'required|string|min:1|max:200'
+            'validation_rules' => 'required|string|min:1|max:200',
         ]);
 
         $this->form->auto_reply_email_field = $email->id;

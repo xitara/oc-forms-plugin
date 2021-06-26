@@ -1,5 +1,5 @@
 {
-    "name": "abwebdevelopers/oc-forms-plugin",
+    "name": "xitara/oc-forms-plugin",
     "description": "Custom form builder for OctoberCMS",
     "type": "october-plugin",
     "keywords": [
@@ -15,7 +15,7 @@
     "authors": [
         {
             "name": "AB Web Developers",
-            "email": "info@abweb.com.au",
+            "email": "info@xw.com.au",
             "role": "Web Developer"
         }
     ],

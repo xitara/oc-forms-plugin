@@ -1,10 +1,10 @@
-<?php namespace ABWebDevelopers\Forms\Models;
+<?php namespace Xitara\Forms\Models;
 
 use Model;
-use ABWebDevelopers\Forms\Models\Submission;
-use ABWebDevelopers\Forms\Models\Field;
-use ABWebDevelopers\Forms\Models\Settings;
 use October\Rain\Database\Traits\Validation;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Settings;
+use Xitara\Forms\Models\Submission;
 
 class Form extends Model
 {
@@ -13,7 +13,7 @@ class Form extends Model
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'abwebdevelopers_forms_forms';
+    public $table = 'xitara_forms_forms';
 
     /**
      * @var array Has many relations
@@ -106,7 +106,7 @@ class Form extends Model
         'cache_lifetime' => 'nullable|integer|min:0',
         'on_success' => 'nullable|in:hide,clear,redirect',
         'on_success_message' => 'nullable|string|max:255',
-        'on_success_redirect' => 'nullable|string|max:255'
+        'on_success_redirect' => 'nullable|string|max:255',
     ];
 
     /**
@@ -285,7 +285,6 @@ class Form extends Model
         return $fields;
     }
 
-
     // Form component helpers:
 
     // ====== ANTI-SPAM
@@ -387,7 +386,7 @@ class Form extends Model
             return (string) $this->notification_template;
         }
 
-        return (string) Settings::get('notification_template', 'abwebdevelopers.forms::mail.notification');
+        return (string) Settings::get('notification_template', 'xitara.forms::mail.notification');
     }
 
     /**
@@ -437,7 +436,6 @@ class Form extends Model
     {
         return $this->auto_reply_name_field;
     }
-    
 
     /**
      * Retrieve form's auto reply template
@@ -450,7 +448,7 @@ class Form extends Model
             return (string) $this->auto_reply_template;
         }
 
-        return (string) Settings::get('auto_reply_template', 'abwebdevelopers.forms::mail.autoreply');
+        return (string) Settings::get('auto_reply_template', 'xitara.forms::mail.autoreply');
     }
 
     /**

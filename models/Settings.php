@@ -1,9 +1,8 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Models;
+namespace Xitara\Forms\Models;
 
 use Model;
-use Backend;
 use October\Rain\Database\Traits\Validation;
 
 class Settings extends Model
@@ -21,13 +20,13 @@ class Settings extends Model
      * @var array Required permissions to access settings
      */
     public $requiredPermissions = [
-        'abwebdevelopers.forms.access_settings'
+        'xitara.forms.access_settings',
     ];
 
     /**
      * @var string Define the unique settings code
      */
-    public $settingsCode = 'abwebdevelopers_forms';
+    public $settingsCode = 'xitara_forms';
 
     /**
      * @var string Define the fields for these settings

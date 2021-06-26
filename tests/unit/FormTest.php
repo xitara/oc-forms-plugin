@@ -1,11 +1,10 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Tests\Unit;
+namespace Xitara\Forms\Tests\Unit;
 
-use ABWebDevelopers\Forms\Models\Settings;
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
 use PluginTestCase;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
 
 class FormTest extends PluginTestCase
 {
@@ -34,12 +33,12 @@ class FormTest extends PluginTestCase
             'max_requests_per_day' => 5,
             'throttle_message' => 'throttle',
             'send_notifications' => false,
-            'notification_template' => 'abwebdevelopers.forms::mail.notification',
+            'notification_template' => 'xitara.forms::mail.notification',
             'notification_recipients' => 'bob@example.org,rob@example.org',
             'auto_reply' => false,
             'auto_reply_email_field_id' => null,
             'auto_reply_name_field_id' => null,
-            'auto_reply_template' => 'abwebdevelopers.forms::mail.autoreply',
+            'auto_reply_template' => 'xitara.forms::mail.autoreply',
         ]);
     }
 

@@ -1,7 +1,7 @@
 title: Field
-modelClass: ABWebDevelopers\Forms\Models\Field
-list: $/abwebdevelopers/forms/models/field/columns.yaml
-recordUrl: 'abwebdevelopers/forms/field/update/:id'
+modelClass: Xitara\Forms\Models\Field
+list: $/xitara/forms/models/field/columns.yaml
+recordUrl: 'xitara/forms/field/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
 recordsPerPage: 20
 showSetup: true

@@ -3,7 +3,7 @@
         Submission #<?=$submission->id?>
         <small> via
             <a
-                href="<?= Backend::url('abwebdevelopers/forms/form/update/' . $submission->form_id) ?>"><?= $submission->form->title ?></a>
+                href="<?= Backend::url('xitara/forms/form/update/' . $submission->form_id) ?>"><?= $submission->form->title ?></a>
         </small>
     </h1>
 </section>
@@ -26,7 +26,7 @@
             <li>
                 <b class="inline-data">Request IP:</b>
                 <pre
-                    class="inline-data"><?= $submission->ip ?> (<a href="<?= Backend::url('abwebdevelopers/forms/submission?q=' . $submission->ip) ?>" title="Filter submissions by IP">Filter by this IP</a>)</pre>
+                    class="inline-data"><?= $submission->ip ?> (<a href="<?= Backend::url('xitara/forms/submission?q=' . $submission->ip) ?>" title="Filter submissions by IP">Filter by this IP</a>)</pre>
             </li>
             <?php endif; ?>
 

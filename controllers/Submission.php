@@ -1,28 +1,29 @@
-<?php namespace ABWebDevelopers\Forms\Controllers;
+<?php namespace Xitara\Forms\Controllers;
 
-use Backend\Classes\Controller;
 use BackendMenu;
-use ABWebDevelopers\Forms\Models\Submission as Sub;
+use Backend\Classes\Controller;
+use Xitara\Forms\Models\Submission as Sub;
 
 class Submission extends Controller
 {
     public $implement = [
         'Backend\Behaviors\ListController',
     ];
-    
+
     public $listConfig = 'config_list.yaml';
 
     public function __construct()
     {
         parent::__construct();
-        BackendMenu::setContext('ABWebDevelopers.Forms', 'bradie-forms', 'bradie-forms-submissions');
+        BackendMenu::setContext('Xitara.Forms', 'bradie-forms', 'bradie-forms-submissions');
     }
 
-    public function details($id) {
+    public function details($id)
+    {
         $sub = Sub::with(['form'])->findOrFail($id);
 
         return $this->makePartial('details', [
-            'submission' => $sub
+            'submission' => $sub,
         ]);
     }
 }

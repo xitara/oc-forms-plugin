@@ -1,11 +1,7 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Components;
+namespace Xitara\Forms\Components;
 
-use ABWebDevelopers\Forms\Classes\HtmlGenerator;
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Settings;
-use ABWebDevelopers\Forms\Models\Submission;
 use Cache;
 use Cms\Classes\ComponentBase;
 use Event;
@@ -18,13 +14,17 @@ use Request;
 use Response;
 use System\Models\File;
 use Validator;
+use Xitara\Forms\Classes\HtmlGenerator;
+use Xitara\Forms\Models\Form;
+use Xitara\Forms\Models\Settings;
+use Xitara\Forms\Models\Submission;
 
 class CustomForm extends ComponentBase
 {
     /**
      * @var string Event namespace
      */
-    const EVENTS_PREFIX = 'abweb.forms.'; /**
+    const EVENTS_PREFIX = 'xw.forms.'; /**
      * @var Form The form to render / use
      */
     protected $form;
@@ -76,8 +76,8 @@ class CustomForm extends ComponentBase
     {
         return [
             'formCode' => [
-                'title' => 'abwebdevelopers.forms::lang.customForm.formCode.title',
-                'description' => 'abwebdevelopers.forms::lang.customForm.formCode.description',
+                'title' => 'xitara.forms::lang.customForm.formCode.title',
+                'description' => 'xitara.forms::lang.customForm.formCode.description',
                 'default' => '',
                 'type' => 'dropdown',
                 'required' => true,
@@ -143,10 +143,10 @@ class CustomForm extends ComponentBase
         $this->loadForm();
 
         // Load required CSS
-        $this->addCss('/plugins/abwebdevelopers/forms/assets/custom-form.css');
+        $this->addCss('/plugins/xitara/forms/assets/custom-form.css');
         // Load required JS
-        $this->addJs('/plugins/abwebdevelopers/forms/assets/jquery-callback.js');
-        $this->addJs('/plugins/abwebdevelopers/forms/assets/custom-form.js');
+        $this->addJs('/plugins/xitara/forms/assets/jquery-callback.js');
+        $this->addJs('/plugins/xitara/forms/assets/custom-form.js');
 
         // Fire afterRun event
         Event::fire(self::EVENTS_PREFIX . 'afterRun', [$this]);
@@ -161,10 +161,10 @@ class CustomForm extends ComponentBase
         $this->loadForm();
 
         // Load required CSS
-        $this->addCss('/plugins/abwebdevelopers/forms/assets/custom-form.css');
+        $this->addCss('/plugins/xitara/forms/assets/custom-form.css');
         // Load required JS
-        $this->addJs('/plugins/abwebdevelopers/forms/assets/jquery-callback.js');
-        $this->addJs('/plugins/abwebdevelopers/forms/assets/custom-form.js');
+        $this->addJs('/plugins/xitara/forms/assets/jquery-callback.js');
+        $this->addJs('/plugins/xitara/forms/assets/custom-form.js');
 
         $this->getRenderedPartial();
 
@@ -245,7 +245,7 @@ class CustomForm extends ComponentBase
         if ($this->form->recaptchaEnabled()) {
             $fields[] = 'g-recaptcha-response';
             $rules['g-recaptcha-response'] = 'required|string';
-            $messages['g-recaptcha-response.*'] = Lang::get('abwebdevelopers.forms::lang.customForm.validation.recaptchaFailed');
+            $messages['g-recaptcha-response.*'] = Lang::get('xitara.forms::lang.customForm.validation.recaptchaFailed');
         }
 
         // Get only what we asked for
@@ -287,7 +287,7 @@ class CustomForm extends ComponentBase
         if (empty($data)) {
             return Response::json([
                 'success' => false,
-                'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.noData'),
+                'error' => Lang::get('xitara.forms::lang.customForm.validation.noData'),
             ], 400);
         }
 
@@ -552,7 +552,7 @@ class CustomForm extends ComponentBase
         // If caching is enabled, return the cached version...
         if ($cachingEnabled) {
             // ..and/or initialise the cache, for the configured lifetime
-            $form = Cache::remember('abwebdevelopers_form_' . $this->form->code, $this->form->cacheLifetime(), function () {
+            $form = Cache::remember('xitara_form_' . $this->form->code, $this->form->cacheLifetime(), function () {
                 return $this->renderForm();
             });
         } else {
@@ -657,7 +657,7 @@ class CustomForm extends ComponentBase
                 // Return (a single) error
                 return Response::json([
                     'success' => false,
-                    'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.invalidNotificationRecipients'),
+                    'error' => Lang::get('xitara.forms::lang.customForm.validation.invalidNotificationRecipients'),
                 ], 501);
             }
 
@@ -747,7 +747,7 @@ class CustomForm extends ComponentBase
             // Return (a single) error if the email field could not be resolved
             return Response::json([
                 'success' => false,
-                'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.noAutoReplyEmailField'),
+                'error' => Lang::get('xitara.forms::lang.customForm.validation.noAutoReplyEmailField'),
             ], 501);
         }
 
@@ -758,7 +758,7 @@ class CustomForm extends ComponentBase
             // Return (a single) error if the name field could not be resolved
             return Response::json([
                 'success' => false,
-                'error' => Lang::get('abwebdevelopers.forms::lang.customForm.validation.noAutoReplyNameField'),
+                'error' => Lang::get('xitara.forms::lang.customForm.validation.noAutoReplyNameField'),
             ], 501);
         }
 

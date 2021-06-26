@@ -1,11 +1,11 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Controllers;
+namespace Xitara\Forms\Controllers;
 
-use ABWebDevelopers\Forms\Models\Field;
-use Backend\Classes\Controller;
 use BackendMenu;
+use Backend\Classes\Controller;
 use October\Rain\Support\Facades\Flash;
+use Xitara\Forms\Models\Field;
 
 class Form extends Controller
 {
@@ -22,7 +22,7 @@ class Form extends Controller
     public function __construct()
     {
         parent::__construct();
-        BackendMenu::setContext('ABWebDevelopers.Forms', 'bradie-forms', 'forms-forms');
+        BackendMenu::setContext('Xitara.Forms', 'bradie-forms', 'forms-forms');
     }
 
     public function onMoveFieldUp()
@@ -41,7 +41,7 @@ class Form extends Controller
 
         $this->swapFieldOrder($field, $fieldBefore);
 
-        Flash::success(trans('abwebdevelopers.forms::lang.models.all.sort_order.successful_up'));
+        Flash::success(trans('xitara.forms::lang.models.all.sort_order.successful_up'));
 
         return $this->refreshFieldsRelation($field->form);
     }
@@ -62,12 +62,12 @@ class Form extends Controller
 
         $this->swapFieldOrder($field, $fieldAfter);
 
-        Flash::success(trans('abwebdevelopers.forms::lang.models.all.sort_order.successful_down'));
+        Flash::success(trans('xitara.forms::lang.models.all.sort_order.successful_down'));
 
         return $this->refreshFieldsRelation($field->form);
     }
 
-    private function refreshFieldsRelation(\ABWebDevelopers\Forms\Models\Form $model)
+    private function refreshFieldsRelation(\Xitara\Forms\Models\Form $model)
     {
         $this->initForm($model);
         $this->initRelation($model, 'fields');

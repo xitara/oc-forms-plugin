@@ -1,16 +1,15 @@
-<?php namespace ABWebDevelopers\Forms;
+<?php namespace Xitara\Forms;
 
-use ABWebDevelopers\Forms\Models\Settings;
 use Event;
 use System\Classes\PluginBase;
+use Xitara\Forms\Models\Settings;
 
 class Plugin extends PluginBase
 {
-
     /**
      * @var string Event namespace
      */
-    const EVENTS_PREFIX = 'abweb.forms.';
+    const EVENTS_PREFIX = 'xw.forms.';
 
     /**
      * Register Plugin Components
@@ -20,7 +19,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'ABWebDevelopers\Forms\Components\CustomForm' => 'customForm',
+            'Xitara\Forms\Components\CustomForm' => 'customForm',
         ];
     }
     public function registerPageSnippets()
@@ -41,10 +40,10 @@ class Plugin extends PluginBase
                 'description' => 'Simple multipurpose form builder',
                 'category' => 'Small plugins',
                 'icon' => 'icon-inbox',
-                'class' => 'ABWebDevelopers\Forms\Models\Settings',
-                'keywords' => 'form custom contact abweb recaptcha antispam',
+                'class' => 'Xitara\Forms\Models\Settings',
+                'keywords' => 'form custom contact xw recaptcha antispam',
                 'order' => 555,
-                'permissions' => ['abwebdevelopers.forms.access_settings'],
+                'permissions' => ['xitara.forms.access_settings'],
             ],
         ];
     }
@@ -57,8 +56,8 @@ class Plugin extends PluginBase
     public function registerMailTemplates()
     {
         return [
-            'abwebdevelopers.forms::mail.autoreply' => 'abwebdevelopers.forms::lang.mail.templates.autoreply',
-            'abwebdevelopers.forms::mail.notification' => 'abwebdevelopers.forms::lang.mail.templates.notification',
+            'xitara.forms::mail.autoreply' => 'xitara.forms::lang.mail.templates.autoreply',
+            'xitara.forms::mail.notification' => 'xitara.forms::lang.mail.templates.notification',
         ];
     }
 
@@ -67,15 +66,15 @@ class Plugin extends PluginBase
      */
     public function boot()
     {
-        $this->loadViewsFrom(__DIR__ . '/views', 'abwebdevelopers.forms');
+        $this->loadViewsFrom(__DIR__ . '/views', 'xitara.forms');
 
         Event::listen('backend.page.beforeDisplay', function ($controller, $action, $params) {
-            if ($controller instanceof \ABWebDevelopers\Forms\Controllers\Form) {
+            if ($controller instanceof \Xitara\Forms\Controllers\Form) {
                 // Check this is the settings page for this plugin:
                 if ($action === 'update' || $action === 'create') {
                     // Add CSS (minor patch)
-                    $controller->addCss('/plugins/abwebdevelopers/forms/assets/settings-patch.css');
-                    $controller->addJs('/plugins/abwebdevelopers/forms/assets/settings-patch.js');
+                    $controller->addCss('/plugins/xitara/forms/assets/settings-patch.css');
+                    $controller->addJs('/plugins/xitara/forms/assets/settings-patch.js');
                 }
             }
         });

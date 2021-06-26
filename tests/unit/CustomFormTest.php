@@ -1,16 +1,16 @@
 <?php
 
-namespace ABWebDevelopers\Forms\Tests\Unit;
+namespace Xitara\Forms\Tests\Unit;
 
-use ABWebDevelopers\Forms\Models\Settings;
-use ABWebDevelopers\Forms\Models\Submission;
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
-use ABWebDevelopers\Forms\Components\CustomForm;
-use PluginTestCase;
 use Input;
-use Mail;
 use Lang;
+use Mail;
+use PluginTestCase;
+use Xitara\Forms\Components\CustomForm;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
+use Xitara\Forms\Models\Settings;
+use Xitara\Forms\Models\Submission;
 
 class CustomFormTest extends PluginTestCase
 {
@@ -66,7 +66,7 @@ class CustomFormTest extends PluginTestCase
         ], $data);
 
         $this->form = Form::updateOrCreate([
-            'id' => 1
+            'id' => 1,
         ], $data);
 
         $name = Field::updateOrCreate([
@@ -77,7 +77,7 @@ class CustomFormTest extends PluginTestCase
             'type' => 'text',
             'description' => 'Full Name',
             'sort_order' => 1,
-            'validation_rules' => 'required|string|min:1|max:100'
+            'validation_rules' => 'required|string|min:1|max:100',
         ]);
 
         $email = Field::updateOrCreate([
@@ -88,7 +88,7 @@ class CustomFormTest extends PluginTestCase
             'type' => 'email',
             'description' => 'Email Address',
             'sort_order' => 2,
-            'validation_rules' => 'required|string|email'
+            'validation_rules' => 'required|string|email',
         ]);
 
         $comment = Field::updateOrCreate([
@@ -99,7 +99,7 @@ class CustomFormTest extends PluginTestCase
             'type' => 'textarea',
             'description' => 'User\'s Comments',
             'sort_order' => 3,
-            'validation_rules' => 'required|string|min:1|max:200'
+            'validation_rules' => 'required|string|min:1|max:200',
         ]);
 
         $this->form->auto_reply_email_field = $email->id;
@@ -137,9 +137,9 @@ class CustomFormTest extends PluginTestCase
 
         $this->assertEquals($resp->getStatusCode(), 400);
 
-        $this->assertEquals($resp->getData(), (object)[
+        $this->assertEquals($resp->getData(), (object) [
             'success' => false,
-            'error' => 'abwebdevelopers.forms::lang.customForm.validation.noData' // 'No data supplied'
+            'error' => 'xitara.forms::lang.customForm.validation.noData', // 'No data supplied'
         ]);
     }
 
@@ -153,7 +153,7 @@ class CustomFormTest extends PluginTestCase
         Input::replace([
             'name' => '',
             'email' => 'invalid',
-            'comment' => ''
+            'comment' => '',
         ]);
 
         $resp = $component->onFormSubmit();
@@ -169,14 +169,14 @@ class CustomFormTest extends PluginTestCase
     public function testSubmitFailsOnNoRecaptcha()
     {
         $this->initSettings([
-            'enable_recaptcha' => true
+            'enable_recaptcha' => true,
         ]);
         $component = $this->getComponent();
 
         Input::replace([
             'name' => 'valid',
             'email' => 'valid@example.org',
-            'comment' => 'valid'
+            'comment' => 'valid',
         ]);
 
         $resp = $component->onFormSubmit();
@@ -192,7 +192,7 @@ class CustomFormTest extends PluginTestCase
     public function testSubmitFailsOnInvalidRecaptcha()
     {
         $this->initSettings([
-            'enable_recaptcha' => true
+            'enable_recaptcha' => true,
         ]);
         $component = $this->getComponent();
 
@@ -200,7 +200,7 @@ class CustomFormTest extends PluginTestCase
             'name' => 'valid',
             'email' => 'valid@example.org',
             'comment' => 'valid',
-            'g-recaptcha-response' => 'TESTING_INVALID'
+            'g-recaptcha-response' => 'TESTING_INVALID',
         ]);
 
         $resp = $component->onFormSubmit();
@@ -434,7 +434,7 @@ class CustomFormTest extends PluginTestCase
 
         $this->assertEquals($resp->getStatusCode(), 501);
         $this->assertEquals($resp->getData()->success, false);
-        $this->assertEquals($resp->getData()->error, Lang::get('abwebdevelopers.forms::lang.customForm.validation.invalidNotificationRecipients'));
+        $this->assertEquals($resp->getData()->error, Lang::get('xitara.forms::lang.customForm.validation.invalidNotificationRecipients'));
     }
 
     /**
@@ -492,7 +492,7 @@ class CustomFormTest extends PluginTestCase
 
         $this->assertEquals($resp->getStatusCode(), 501);
         $this->assertEquals($resp->getData()->success, false);
-        $this->assertEquals($resp->getData()->error, Lang::get('abwebdevelopers.forms::lang.customForm.validation.noAutoReplyEmailField'));
+        $this->assertEquals($resp->getData()->error, Lang::get('xitara.forms::lang.customForm.validation.noAutoReplyEmailField'));
     }
 
     /**
@@ -524,7 +524,7 @@ class CustomFormTest extends PluginTestCase
 
         $this->assertEquals($resp->getStatusCode(), 501);
         $this->assertEquals($resp->getData()->success, false);
-        $this->assertEquals($resp->getData()->error, Lang::get('abwebdevelopers.forms::lang.customForm.validation.noAutoReplyNameField'));
+        $this->assertEquals($resp->getData()->error, Lang::get('xitara.forms::lang.customForm.validation.noAutoReplyNameField'));
     }
 
     /**
@@ -564,7 +564,7 @@ class CustomFormTest extends PluginTestCase
             'store_ips' => true,
             'enable_ip_restriction' => true,
             'max_requests_per_day' => 3,
-            'throttle_message' => 'Chill'
+            'throttle_message' => 'Chill',
         ]);
 
         $post = [
@@ -622,9 +622,9 @@ class CustomFormTest extends PluginTestCase
                 [
                     'option_code' => 'oranges',
                     'option_label' => 'Oranges',
-                ]
+                ],
             ],
-            'required' => true
+            'required' => true,
         ]);
 
         $component = $this->getComponent();
@@ -633,7 +633,7 @@ class CustomFormTest extends PluginTestCase
             'name' => 'valid',
             'email' => 'valid@example.org',
             'comment' => 'rehrtjhrtyj',
-            'option' => 'INVALID'
+            'option' => 'INVALID',
         ]);
 
         $resp = $component->onFormSubmit();
@@ -667,9 +667,9 @@ class CustomFormTest extends PluginTestCase
                 [
                     'option_code' => 'Oranges',
                     'option_label' => 'Oranges',
-                ]
+                ],
             ],
-            'required' => true
+            'required' => true,
         ]);
 
         $component = $this->getComponent();
@@ -678,7 +678,7 @@ class CustomFormTest extends PluginTestCase
             'name' => 'valid',
             'email' => 'valid@example.org',
             'comment' => 'rehrtjhrtyj',
-            'option' => 'Apples'
+            'option' => 'Apples',
         ]);
 
         $resp = $component->onFormSubmit();

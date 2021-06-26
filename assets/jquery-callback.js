@@ -1,8 +1,8 @@
 /**
  * name: jQuery callback
- * author: AB Web Developers (https://github.com/abwebdevelopers)
+ * author: AB Web Developers (https://github.com/xitara)
  * version: 1.0.0
- * 
+ *
  * A simple script that allows binding jQuery-dependent callbacks at any point during a page
  * load. This should eliminate any "Uncaught ReferenceError: $ is not defined" errors
  * with minimal overhead

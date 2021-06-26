@@ -1,7 +1,7 @@
-list: $/abwebdevelopers/forms/models/submission/columns.yaml
-modelClass: ABWebDevelopers\Forms\Models\Submission
+list: $/xitara/forms/models/submission/columns.yaml
+modelClass: Xitara\Forms\Models\Submission
 title: Submission
-recordUrl: 'abwebdevelopers/forms/submission/details/:id'
+recordUrl: 'xitara/forms/submission/details/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
 showSetup: true
 showCheckboxes: true

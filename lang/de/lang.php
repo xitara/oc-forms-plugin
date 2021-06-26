@@ -49,8 +49,8 @@
 
     'mail' => [
         'templates' => [
-            'autoreply' => 'ABWebDevelopers Forms - Automatische Antwort',
-            'notification' => 'ABWebDevelopers Forms - Benachrichtigung',
+            'autoreply' => 'Xitara Forms - Automatische Antwort',
+            'notification' => 'Xitara Forms - Benachrichtigung',
         ],
     ],
     'customForm' => [

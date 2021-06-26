@@ -1,9 +1,9 @@
-<?php namespace ABWebDevelopers\Forms\Models;
+<?php namespace Xitara\Forms\Models;
 
-use ABWebDevelopers\Forms\Models\Form;
 use Backend;
 use Model;
 use Request;
+use Xitara\Forms\Models\Form;
 
 class Submission extends Model
 {
@@ -11,7 +11,7 @@ class Submission extends Model
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'abwebdevelopers_forms_submissions';
+    public $table = 'xitara_forms_submissions';
 
     /**
      * @var array JSONable fields
@@ -49,7 +49,7 @@ class Submission extends Model
      */
     public function viewLink()
     {
-        return Backend::url('abwebdevelopers/forms/submission', $this->id);
+        return Backend::url('xitara/forms/submission', $this->id);
     }
 
     /**

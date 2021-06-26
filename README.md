@@ -41,54 +41,54 @@ Currently there are about 24 events which may fire (depending on your configurat
 
 ```php
 // Runs at the beginning of "onRun" (when loading a page with a CustomForm)
-Event::listen('abweb.forms.beforeRun', function (CustomForm $customForm) {
+Event::listen('xw.forms.beforeRun', function (CustomForm $customForm) {
     // Do something...
     Log::debug('Loaded form: ' . $customForm->form->name);
 });
 
 // Runs at the end of "onRun" (when loading a page with a CustomForm)
-Event::listen('abweb.forms.afterRun', function (CustomForm $customForm) {
+Event::listen('xw.forms.afterRun', function (CustomForm $customForm) {
     // Do something...
 });
 
 // Runs at the beginning of "onFormSubmit" (when submitting a CustomForm)
-Event::listen('abweb.forms.beforeFormSubmit', function (CustomForm $customForm) {
+Event::listen('xw.forms.beforeFormSubmit', function (CustomForm $customForm) {
     // Do something...
     Log::debug('User submitted form: ' . $customForm->form->name);
 });
 
 // Runs before validating the payload of a form. Can adjust data, rules, and messages
-Event::listen('abweb.forms.beforeValidateForm', function (CustomForm $customForm, array &$data, array &$rules, array &$messages, Validator $validator) {
+Event::listen('xw.forms.beforeValidateForm', function (CustomForm $customForm, array &$data, array &$rules, array &$messages, Validator $validator) {
     // Do something...
 });
 
 // Runs if validating the payload of a form fails
-Event::listen('abweb.forms.onValidateFormFail', function (CustomForm $customForm, array $data, array $rules, array $messages, Validator $validator) {
+Event::listen('xw.forms.onValidateFormFail', function (CustomForm $customForm, array $data, array $rules, array $messages, Validator $validator) {
     // Do something...
 });
 
 // Runs if validating the payload of a form is successful
-Event::listen('abweb.forms.afterValidateForm', function (CustomForm $customForm, array $data, array $rules, array $messages) {
+Event::listen('xw.forms.afterValidateForm', function (CustomForm $customForm, array $data, array $rules, array $messages) {
     // Do something...
 });
 
 // Runs if validating the recaptcha response fails
-Event::listen('abweb.forms.onRecaptchaFail', function (CustomForm $customForm, string $recaptchaResponse) {
+Event::listen('xw.forms.onRecaptchaFail', function (CustomForm $customForm, string $recaptchaResponse) {
     // Do something...
 });
 
 // Runs if validating the recaptcha response is successful
-Event::listen('abweb.forms.onRecaptchaSuccess', function (CustomForm $customForm, array $data, array $rules, array $messages) {
+Event::listen('xw.forms.onRecaptchaSuccess', function (CustomForm $customForm, array $data, array $rules, array $messages) {
     // Do something...
 });
 
 // Runs at the end of "onFormSubmit" (when submitting a CustomForm)
-Event::listen('abweb.forms.afterFormSubmit', function (CustomForm $customForm, array $data, $response) {
+Event::listen('xw.forms.afterFormSubmit', function (CustomForm $customForm, array $data, $response) {
     // Do something...
 });
 
 // Runs before rendering the form (or retrieving pre-rendered cache)
-Event::listen('abweb.forms.beforeRenderPartial', function (CustomForm $customForm, bool $cachingEnabled) {
+Event::listen('xw.forms.beforeRenderPartial', function (CustomForm $customForm, bool $cachingEnabled) {
     // Do something...
     if ($cachingEnabled) {
         // Do something...
@@ -96,40 +96,40 @@ Event::listen('abweb.forms.beforeRenderPartial', function (CustomForm $customFor
 });
 
 // Runs after rendering the form (or retrieving pre-rendered cache). Can adjust HTML.
-Event::listen('abweb.forms.afterRenderPartial', function (CustomForm $customForm, string &$html) {
+Event::listen('xw.forms.afterRenderPartial', function (CustomForm $customForm, string &$html) {
     // Do something...
     $html .= '<script src="https://api.google.com/.../library.js"></script>';
 });
 
 // Runs before sending notification emails. Can adjust data and recipient
-Event::listen('abweb.forms.beforeSendNotification', function (CustomForm $customForm, array &$data, array &$to) {
+Event::listen('xw.forms.beforeSendNotification', function (CustomForm $customForm, array &$data, array &$to) {
     // Do something...
 });
 
 // Runs before validating notification recipients. Can adjust data, recipient and rules
-Event::listen('abweb.forms.beforeNotificationValidation', function (CustomForm $customForm, array $data, array &$to, array &$rules, Validator &$validator) {
+Event::listen('xw.forms.beforeNotificationValidation', function (CustomForm $customForm, array $data, array &$to, array &$rules, Validator &$validator) {
     // Do something...
 });
 
 // Runs if validating notification recipients fails
-Event::listen('abweb.forms.onNotificationValidationFail', function (CustomForm $customForm, array $data, array $to, array $rules, Validator $validator) {
+Event::listen('xw.forms.onNotificationValidationFail', function (CustomForm $customForm, array $data, array $to, array $rules, Validator $validator) {
     // Do something...
     Log::info($validator->messages()->toArray());
 });
 
 // Runs if validating notification recipients is successful
-Event::listen('abweb.forms.onNotificationValidationSuccess', function (CustomForm $customForm, array $data, array $to, array $rules) {
+Event::listen('xw.forms.onNotificationValidationSuccess', function (CustomForm $customForm, array $data, array $to, array $rules) {
     // Do something...
 });
 
 // Runs when configuring the $message to send a notification to recipients
-Event::listen('abweb.forms.onSendNotification', function (CustomForm $customForm, &$message, $to) {
+Event::listen('xw.forms.onSendNotification', function (CustomForm $customForm, &$message, $to) {
     // Do something...
     $message->replyTo('noreply@domain.com');
 });
 
 // Runs after sending (or queueing) notification to recipients
-Event::listen('abweb.forms.afterSendNotification', function (CustomForm $customForm, array $data, bool $success) {
+Event::listen('xw.forms.afterSendNotification', function (CustomForm $customForm, array $data, bool $success) {
     // Do something...
     if (!$success) {
         Log::debug('Dammit whats wrong now?');
@@ -137,14 +137,14 @@ Event::listen('abweb.forms.afterSendNotification', function (CustomForm $customF
 });
 
 // Runs before sending auto reply email. Can adjust data, recipient name and email
-Event::listen('abweb.forms.beforeSendAutoReply', function (CustomForm $customForm, array &$data, &$toEmail, &$toName) {
+Event::listen('xw.forms.beforeSendAutoReply', function (CustomForm $customForm, array &$data, &$toEmail, &$toName) {
     // Do something...
     $toEmail = 'new@example.org';
     $toName = 'Mr. Nobody';
 });
 
 // Runs if validating auto reply recipient fails.
-Event::listen('abweb.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
+Event::listen('xw.forms.onAutoReplyValidationFail', function (CustomForm $customForm, array $data, $toEmail, $toName, string $failedOn) {
     // Do something...
     if ($failedOn === 'email') {
         Log::debug('Invalid auto-reply email');
@@ -154,13 +154,13 @@ Event::listen('abweb.forms.onAutoReplyValidationFail', function (CustomForm $cus
 });
 
 // Runs when configuring the $message to send an automatic reply to the user
-Event::listen('abweb.forms.onSendAutoReply', function (CustomForm $customForm, &$message, $to) {
+Event::listen('xw.forms.onSendAutoReply', function (CustomForm $customForm, &$message, $to) {
     // Do something...
     $message->bcc('mwahahaha@domain.com');
 });
 
 // Runs after sending (or queueing) auto reply email
-Event::listen('abweb.forms.afterSendAutoReply', function (CustomForm $customForm, array $data, bool $success) {
+Event::listen('xw.forms.afterSendAutoReply', function (CustomForm $customForm, array $data, bool $success) {
     // Do something...
     if (!$success) {
         Log::debug($data);
@@ -168,13 +168,13 @@ Event::listen('abweb.forms.afterSendAutoReply', function (CustomForm $customForm
 });
 
 // Runs before saving the submission in the database. Can adjust the Submission's data
-Event::listen('abweb.forms.beforeSaveSubmission', function (CustomForm $customForm, array &$submissionData) {
+Event::listen('xw.forms.beforeSaveSubmission', function (CustomForm $customForm, array &$submissionData) {
     // Do something...
     $submissionData['extraField'] = 'Add this to the database please';
 });
 
 // Runs after saving the submission in the database
-Event::listen('abweb.forms.afterSaveSubmission', function (CustomForm $customForm, Submission $submission) {
+Event::listen('xw.forms.afterSaveSubmission', function (CustomForm $customForm, Submission $submission) {
     // Do something...
     if ($submission->url == '/') {
         $submission->delete();
@@ -182,7 +182,7 @@ Event::listen('abweb.forms.afterSaveSubmission', function (CustomForm $customFor
 });
 
 // Runs before setting email template vars. Can adjust the variables
-Event::listen('abweb.forms.beforeSetTemplateVars', function (CustomForm $customForm, array &$vars) {
+Event::listen('xw.forms.beforeSetTemplateVars', function (CustomForm $customForm, array &$vars) {
     // Do something...
     $vars['date'] = \Carbon\Carbon::now()->format('jS F Y');
 });

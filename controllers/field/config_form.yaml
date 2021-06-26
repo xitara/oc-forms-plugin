@@ -1,11 +1,11 @@
 name: Field
-modelClass: ABWebDevelopers\Forms\Models\Field
-form: $/abwebdevelopers/forms/models/field/fields.yaml
-defaultRedirect: abwebdevelopers/forms/field
+modelClass: Xitara\Forms\Models\Field
+form: $/xitara/forms/models/field/fields.yaml
+defaultRedirect: xitara/forms/field
 create:
-    redirect: 'abwebdevelopers/forms/field/update/:id'
-    redirectClose: abwebdevelopers/forms/field
+    redirect: 'xitara/forms/field/update/:id'
+    redirectClose: xitara/forms/field
 update:
-    redirect: abwebdevelopers/forms/field
-    redirectClose: abwebdevelopers/forms/field
+    redirect: xitara/forms/field
+    redirectClose: xitara/forms/field
 preview: {  }

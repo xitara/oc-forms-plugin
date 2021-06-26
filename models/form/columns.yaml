@@ -1,16 +1,16 @@
 columns:
     title:
-        label: abwebdevelopers.forms::lang.models.form.title.label
+        label: xitara.forms::lang.models.form.title.label
         type: text
         searchable: true
         sortable: true
     code:
-        label: abwebdevelopers.forms::lang.models.form.code.label
+        label: xitara.forms::lang.models.form.code.label
         type: text
         searchable: true
         sortable: true
     description:
-        label: abwebdevelopers.forms::lang.models.form.description.label
+        label: xitara.forms::lang.models.form.description.label
         type: text
         searchable: true
     created_at:

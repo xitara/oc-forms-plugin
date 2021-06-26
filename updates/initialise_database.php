@@ -1,16 +1,15 @@
-<?php namespace ABWebDevelopers\Forms\Updates;
+<?php namespace Xitara\Forms\Updates;
 
-use Schema;
 use October\Rain\Database\Updates\Migration;
-
-use ABWebDevelopers\Forms\Models\Form;
-use ABWebDevelopers\Forms\Models\Field;
+use Schema;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
 
 class InitialiseDatabase extends Migration
 {
     public function up()
     {
-        Schema::create('abwebdevelopers_forms_forms', function ($table) {
+        Schema::create('xitara_forms_forms', function ($table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->string('title', 191)->nullable();
@@ -63,7 +62,7 @@ class InitialiseDatabase extends Migration
             $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('abwebdevelopers_forms_fields', function ($table) {
+        Schema::create('xitara_forms_fields', function ($table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->integer('form_id')->unsigned();
@@ -86,7 +85,7 @@ class InitialiseDatabase extends Migration
             $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::create('abwebdevelopers_forms_submissions', function ($table) {
+        Schema::create('xitara_forms_submissions', function ($table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
             $table->integer('form_id')->unsigned();
@@ -99,30 +98,30 @@ class InitialiseDatabase extends Migration
             $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::table('abwebdevelopers_forms_forms', function ($table) {
+        Schema::table('xitara_forms_forms', function ($table) {
             // Add indexes
             $table->index('auto_reply_name_field_id');
             $table->index('auto_reply_email_field_id');
 
             // Add foreign keys
-            $table->foreign('auto_reply_name_field_id')->references('id')->on('abwebdevelopers_forms_fields')->onDelete('cascade');
-            $table->foreign('auto_reply_email_field_id')->references('id')->on('abwebdevelopers_forms_fields')->onDelete('cascade');
+            $table->foreign('auto_reply_name_field_id')->references('id')->on('xitara_forms_fields')->onDelete('cascade');
+            $table->foreign('auto_reply_email_field_id')->references('id')->on('xitara_forms_fields')->onDelete('cascade');
         });
 
-        Schema::table('abwebdevelopers_forms_fields', function ($table) {
+        Schema::table('xitara_forms_fields', function ($table) {
             // Add indexes
             $table->index('form_id');
 
             // Add foreign keys
-            $table->foreign('form_id')->references('id')->on('abwebdevelopers_forms_forms')->onDelete('cascade');
+            $table->foreign('form_id')->references('id')->on('xitara_forms_forms')->onDelete('cascade');
         });
 
-        Schema::table('abwebdevelopers_forms_submissions', function ($table) {
+        Schema::table('xitara_forms_submissions', function ($table) {
             // Add indexes
             $table->index('form_id');
 
             // Add foreign keys
-            $table->foreign('form_id')->references('id')->on('abwebdevelopers_forms_forms')->onDelete('cascade');
+            $table->foreign('form_id')->references('id')->on('xitara_forms_forms')->onDelete('cascade');
         });
 
         // Bootstrap a basic contact form with 3 typical fields
@@ -130,7 +129,7 @@ class InitialiseDatabase extends Migration
             'title' => 'Contact Form',
             'code' => 'contact_form',
             'description' => 'Blah',
-            'auto_reply' => true
+            'auto_reply' => true,
         ]);
         $name = Field::create([
             'form_id' => $form->id,
@@ -138,7 +137,7 @@ class InitialiseDatabase extends Migration
             'type' => 'text',
             'code' => 'name',
             'description' => 'Full Name',
-            'sort_order' => 1
+            'sort_order' => 1,
         ]);
         $email = Field::create([
             'form_id' => $form->id,
@@ -146,7 +145,7 @@ class InitialiseDatabase extends Migration
             'type' => 'email',
             'code' => 'email',
             'description' => 'Email Address',
-            'sort_order' => 2
+            'sort_order' => 2,
         ]);
         $comment = Field::create([
             'form_id' => $form->id,
@@ -154,9 +153,9 @@ class InitialiseDatabase extends Migration
             'type' => 'textarea',
             'code' => 'comment',
             'description' => 'User\'s Comments',
-            'sort_order' => 3
+            'sort_order' => 3,
         ]);
-        
+
         $form->auto_reply_email_field_id = $email->id;
         $form->auto_reply_name_field_id = $name->id;
         $form->save();
@@ -166,9 +165,9 @@ class InitialiseDatabase extends Migration
     {
         Schema::disableForeignKeyConstraints();
 
-        Schema::dropIfExists('abwebdevelopers_forms_forms');
-        Schema::dropIfExists('abwebdevelopers_forms_fields');
-        Schema::dropIfExists('abwebdevelopers_forms_submissions');
+        Schema::dropIfExists('xitara_forms_forms');
+        Schema::dropIfExists('xitara_forms_fields');
+        Schema::dropIfExists('xitara_forms_submissions');
 
         Schema::enableForeignKeyConstraints();
     }
