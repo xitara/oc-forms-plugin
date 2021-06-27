@@ -1,8 +1,8 @@
 <?php namespace Xitara\Forms\Models;
 
 use Model;
-use October\Rain\Database\Traits\Sortable;
-use October\Rain\Database\Traits\Validation;
+use Winter\Storm\Database\Traits\Sortable;
+use Winter\Storm\Database\Traits\Validation;
 
 class Field extends Model
 {

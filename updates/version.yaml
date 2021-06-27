@@ -49,5 +49,9 @@
     - 'Update custom form JS to use better jQuery dependency checker'
 1.4.0:
     - 'Added new plain text field type for adding general HTML to forms'
+1.4.1:
+    - add multiple fileupload. emails not testet yet
 1.5.0:
     - '** Remove foreign key constraints from historic migrations **'
+1.6.0:
+    - Move to own namespace and switch from october to winter

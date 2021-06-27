@@ -1,6 +1,6 @@
 <?php namespace Xitara\Forms\Updates;
 
-use October\Rain\Database\Updates\Migration;
+use Winter\Storm\Database\Updates\Migration;
 
 class InitialiseDatabase extends Migration
 {

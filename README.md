@@ -1,10 +1,16 @@
 # Custom Forms
 
-October Plugin for self created and styled forms, with a variety of customisations, emailing, storing submissions, etc
+Winter Plugin for self created and styled forms, with a variety of customisations, emailing, storing submissions, etc
 
-### Usage (October CMS)
+Forked from the great OctoberCMS-Plugin [ABWebDevelopers\Forms](https://github.com/abwebdevelopers/oc-forms-plugin). Big thx to the developers.
+
+### Usage (Winter CMS)
 
 Simple. Firstly you will need a form. Installing this plugin will automatically generate a basic contact form. This can be deleted or used as a reference - up to you.
+
+### ToDo
+
+- remove yetii/html-element
 
 ##### Settings
 
@@ -20,14 +26,13 @@ After configuring the global settings, head to the Custom Forms navigation item 
 
 Here you can enter the title of the form, and a code for it (which is used in layouts/the component for referencing the correct form).
 
-**Please Note**
-Deferred binding on fields for forms is not configured just yet, meaning you will need to save the form before adding any fields. Feel free to open a PR for the fix to this.
+Attachments will be saved as relations in models (attachOne or attachMany)
 
 After saving the form, you can now add fields by clicking the "Create fields" button
 
 Fairly straight forward process, each field has a comment explaining the fields' purpose a little.
 
-Validation can be configured - accepts a string of rules, `|` (pipe) delimited, as per normal Laravel / October [Validation Rules](https://octobercms.com/docs/services/validation#available-validation-rules). Only supports a single message per field at the moment.
+Validation can be configured - accepts a string of rules, `|` (pipe) delimited, as per normal Laravel / Winter [Validation Rules](https://wintercms.com/docs/services/validation#available-validation-rules). Only supports a single message per field at the moment.
 
 ##### Adding a form to a layout
 

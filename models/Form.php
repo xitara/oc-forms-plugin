@@ -1,7 +1,7 @@
 <?php namespace Xitara\Forms\Models;
 
 use Model;
-use October\Rain\Database\Traits\Validation;
+use Winter\Storm\Database\Traits\Validation;
 use Xitara\Forms\Models\Field;
 use Xitara\Forms\Models\Settings;
 use Xitara\Forms\Models\Submission;
