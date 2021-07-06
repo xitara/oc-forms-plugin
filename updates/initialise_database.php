@@ -1,6 +1,9 @@
 <?php namespace Xitara\Forms\Updates;
 
+use Schema;
 use Winter\Storm\Database\Updates\Migration;
+use Xitara\Forms\Models\Field;
+use Xitara\Forms\Models\Form;
 
 class InitialiseDatabase extends Migration
 {
